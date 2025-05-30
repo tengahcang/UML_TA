@@ -1,0 +1,127 @@
+@startuml
+
+' ======================
+' CLASS DEFINITIONS
+' ======================
+
+class User {
+  +id: int
+  +nama: string
+  +email: string
+  +password: string
+  +role: string
+
+  +login(): bool
+  +logout(): void
+  +create(): void
+  +edit(): void
+  +update(): void
+  +destroy(): void
+}
+
+class KategoriBarang {
+  +id: int
+  +nama: string
+  +deskripsi: string
+
+  +index(): List<KategoriBarang>
+  +create(): void
+  +store(data): void
+  +edit(id): KategoriBarang
+  +update(id, data): void
+  +destroy(id): void
+}
+
+class Barang {
+  +id: int
+  +nama: string
+  +stok: int
+  +harga_beli: float
+  +harga_jual: float
+  +kategori_id: int
+
+  +index(): List<Barang>
+  +create(): void
+  +store(data): void
+  +edit(id): Barang
+  +update(id, data): void
+  +destroy(id): void
+  +updateStok(jumlah: int): void
+  +updateHargaBeli(hargaBaru: float, jumlahBaru: int): void
+}
+
+class Supplier {
+  +id: int
+  +nama: string
+  +alamat: string
+  +kontak: string
+
+  +index(): List<Supplier>
+  +create(): void
+  +store(data): void
+  +edit(id): Supplier
+  +update(id, data): void
+  +destroy(id): void
+}
+
+class Procurement {
+  +id: int
+  +supplier_id: int
+  +tanggal: date
+  +status: string
+  +created_by: int
+
+  +index(): List<Procurement>
+  +create(): void
+  +store(data): void
+  +edit(id): Procurement
+  +update(id, data): void
+  +destroy(id): void
+  +konfirmasi(): void
+}
+
+class ProcurementDetail {
+  +id: int
+  +procurement_id: int
+  +barang_id: int
+  +jumlah: int
+  +harga: float
+}
+
+class Transaksi {
+  +id: int
+  +user_id: int
+  +tanggal: datetime
+  +total: float
+  +metode_pembayaran: string
+  +kode_unik: string
+
+  +index(): List<Transaksi>
+  +create(): void
+  +store(data): void
+  +show(id): Transaksi
+  +hitungKembalian(uangTunai: float): float
+}
+
+class TransaksiDetail {
+  +id: int
+  +transaksi_id: int
+  +barang_id: int
+  +jumlah: int
+  +harga: float
+}
+
+' ======================
+' RELATIONSHIPS
+' ======================
+
+User --> Transaksi
+KategoriBarang --> Barang
+Barang --> TransaksiDetail
+Barang --> ProcurementDetail
+Supplier --> Procurement
+Procurement --> ProcurementDetail
+Transaksi --> TransaksiDetail
+Procurement --> User : created_by
+
+@enduml

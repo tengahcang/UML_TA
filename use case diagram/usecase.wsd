@@ -1,0 +1,75 @@
+@startuml
+left to right direction
+
+actor pengguna
+actor admin
+actor super_admin
+
+rectangle "Koperasi Hita Loka Tara\nUniversitas Telkom Surabaya" {
+
+    (login)
+    (logout)
+    (melihat\ndashboard)
+
+    (melihat data\nkategori barang)
+    (melihat data\nkategori barang) ..> (menghapus data\nkategori barang)  : extends
+    (melihat data\nkategori barang) ..> (mengedit data\nkategori barang)  : extends
+    (melihat data\nkategori barang) ..> (membuat data\nkategori barang)  : extends
+
+
+    (melihat data\nbarang)
+    (melihat data\nbarang) ..> (menghapus data\nbarang) : extends
+    (melihat data\nbarang) ..> (mengedit data\nbarang) : extends
+    (melihat data\nbarang) ..> (membuat data\nbarang)  : extends
+
+    (melihat data\nsupplier)
+    (melihat data\nsupplier) ..> (menghapus data\nsupplier) : extends
+    (melihat data\nsupplier) ..> (mengedit data\nsupplier) : extends
+    (melihat data\nsupplier) ..> (membuat data\nsupplier) : extends
+
+    (melihat data\nkulakan)
+    (melihat data\nkulakan) ..> (konfirmasi data\nkulakan) : extends
+    (melihat data\nkulakan) ..> (menghapus data\nkulakan) : extends
+    (melihat data\nkulakan) ..> (mengedit data\nkulakan) : extends
+    (melihat data\nkulakan) ..> (membuat data\nkulakan) : extends
+
+    (melihat data\ntransaksi)
+    (melihat data\ntransaksi) ..> (mencetak struk\ntransaksi) : extends
+    (melihat data\ntransaksi) ..> (mengekstrak data\ntransaksi) : extends
+    (melihat data\ntransaksi) ..> (membuat data\ntransaksi) : extends
+
+
+    (melihat data\nuser)
+    (melihat data\nuser) ..> (menghapus\nuser) : extends
+    (melihat data\nuser) ..> (mengedit\nuser) : extends
+    (melihat data\nuser) ..> (membuat\nuser) : extends
+
+}
+
+pengguna -- (login)
+
+
+super_admin -- (melihat\ndashboard)
+super_admin -- (melihat data\nkategori barang)
+super_admin -- (melihat data\nbarang)
+super_admin -- (melihat data\nsupplier)
+super_admin -- (melihat data\nkulakan)
+super_admin -- (melihat data\ntransaksi)
+super_admin -- (melihat data\nuser)
+super_admin -- (logout)
+
+
+admin -- (melihat\ndashboard)
+admin -- (melihat data\nkategori barang)
+admin -- (melihat data\nbarang)
+admin -- (melihat data\nsupplier)
+admin -- (melihat data\nkulakan)
+admin -- (melihat data\ntransaksi)
+admin -- (logout)
+
+super_admin --> pengguna
+admin --> pengguna
+
+
+
+@enduml

@@ -1,0 +1,35 @@
+@startuml
+actor Admin
+
+participant "Halaman Index Barang" as BarangIndex
+participant "BarangController" as BarangController
+participant "Model Barang" as BarangModel
+participant "Database" as DB
+
+Admin -> BarangIndex: Akses halaman barang
+activate Admin
+BarangIndex -> BarangController: index()
+activate BarangController
+BarangController --> BarangIndex: View daftar barang
+deactivate BarangController
+
+Admin -> BarangIndex: Klik tombol "Hapus"
+BarangIndex -> Admin: Tampilkan dialog konfirmasi
+Admin -> BarangIndex: Konfirmasi "Ya"
+
+BarangIndex -> BarangController: destroy(id)
+activate BarangController
+
+BarangController -> BarangModel: Hapus data berdasarkan ID
+activate BarangModel
+BarangModel -> DB: DELETE FROM barang WHERE id = ...
+DB --> BarangModel: Data dihapus
+deactivate BarangModel
+
+BarangController --> BarangIndex: Redirect ke index + notifikasi
+deactivate BarangController
+
+BarangIndex -> Admin: Tampilkan daftar + notifikasi
+deactivate Admin
+
+@enduml

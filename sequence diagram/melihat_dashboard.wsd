@@ -1,0 +1,36 @@
+@startuml
+actor super_admin
+
+participant "Halaman Dashboard" as DashboardPage
+participant "Dashboard Controller" as Controller
+participant "Model Transaksi" as Transaksi
+participant "Model Produk" as Produk
+participant "Model Kategori" as Kategori
+
+activate super_admin
+super_admin -> DashboardPage: Akses dashboard
+DashboardPage -> Controller: Panggil fungsi index()
+activate Controller
+
+Controller -> Transaksi: Ambil data penjualan harian
+activate Transaksi
+Transaksi --> Controller: Data penjualan harian
+deactivate Transaksi
+
+Controller -> Produk: Ambil data produk terlaris
+activate Produk
+Produk --> Controller: Data produk terlaris
+deactivate Produk
+
+Controller -> Kategori: Ambil data penjualan per kategori
+activate Kategori
+Kategori --> Controller: Data per kategori
+deactivate Kategori
+
+Controller --> DashboardPage: Kirim data ke view
+deactivate Controller
+
+DashboardPage -> super_admin: Tampilkan dashboard
+deactivate super_admin
+
+@enduml

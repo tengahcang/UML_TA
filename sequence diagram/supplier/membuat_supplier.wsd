@@ -1,0 +1,43 @@
+@startuml
+actor Admin
+
+participant "Halaman Index Supplier" as SupplierIndex
+participant "SupplierController" as SupplierController
+participant "Form Tambah Supplier" as SupplierForm
+participant "Model Supplier" as SupplierModel
+participant "Database" as DB
+
+Admin -> SupplierIndex: Akses halaman supplier
+activate Admin
+SupplierIndex -> SupplierController: index()
+activate SupplierController
+SupplierController --> SupplierIndex: View daftar supplier
+deactivate SupplierController
+
+Admin -> SupplierIndex: Klik tombol "Tambah Supplier"
+SupplierIndex -> SupplierController: create()
+activate SupplierController
+SupplierController --> SupplierForm: View form tambah supplier
+deactivate SupplierController
+
+Admin -> SupplierForm: Isi form dan submit
+SupplierForm -> SupplierController: store(request)
+activate SupplierController
+
+alt Data valid
+    SupplierController -> SupplierModel: Validasi & simpan data
+    activate SupplierModel
+    SupplierModel -> DB: INSERT INTO supplier
+    DB --> SupplierModel: Data berhasil disimpan
+    deactivate SupplierModel
+
+    SupplierController --> SupplierIndex: Redirect ke index + notifikasi sukses
+    deactivate SupplierController
+    SupplierIndex -> Admin: Tampilkan daftar + notifikasi
+else Data tidak valid
+    SupplierController --> SupplierForm: Redirect ke form dengan error
+    deactivate SupplierController
+    SupplierForm -> Admin: Tampilkan pesan validasi
+end
+
+@enduml

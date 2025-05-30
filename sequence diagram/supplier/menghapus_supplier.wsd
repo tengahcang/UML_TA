@@ -1,0 +1,33 @@
+@startuml
+actor Admin
+
+participant "Halaman Index Supplier" as SupplierIndex
+participant "SupplierController" as SupplierController
+participant "Model Supplier" as SupplierModel
+participant "Database" as DB
+
+Admin -> SupplierIndex: Akses halaman supplier
+SupplierIndex -> SupplierController: index()
+activate SupplierController
+SupplierController --> SupplierIndex: View daftar supplier
+deactivate SupplierController
+
+Admin -> SupplierIndex: Klik tombol "Hapus"
+SupplierIndex -> Admin: Tampilkan dialog konfirmasi
+Admin -> SupplierIndex: Konfirmasi "Ya"
+
+SupplierIndex -> SupplierController: destroy(id)
+activate SupplierController
+
+SupplierController -> SupplierModel: Hapus data berdasarkan ID
+activate SupplierModel
+SupplierModel -> DB: DELETE FROM supplier WHERE id = ...
+DB --> SupplierModel: Data dihapus
+deactivate SupplierModel
+
+SupplierController --> SupplierIndex: Redirect ke index + notifikasi
+deactivate SupplierController
+
+SupplierIndex -> Admin: Tampilkan daftar + notifikasi
+
+@enduml

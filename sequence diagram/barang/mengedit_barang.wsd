@@ -1,0 +1,51 @@
+@startuml
+actor Admin
+
+participant "Halaman Index Barang" as BarangIndex
+participant "BarangController" as BarangController
+participant "Form Edit Barang" as BarangForm
+participant "Model Barang" as BarangModel
+participant "Model Kategori" as KategoriModel
+participant "Database" as DB
+
+Admin -> BarangIndex: Akses halaman barang
+activate Admin
+BarangIndex -> BarangController: index()
+activate BarangController
+BarangController --> BarangIndex: View daftar barang
+deactivate BarangController
+
+Admin -> BarangIndex: Klik tombol "Edit"
+BarangIndex -> BarangController: edit(id)
+activate BarangController
+BarangController -> BarangModel: Ambil data barang berdasarkan id
+activate BarangModel
+BarangModel --> BarangController: Data barang
+deactivate BarangModel
+BarangController -> KategoriModel: mengambil data kategori barang
+activate KategoriModel
+KategoriModel --> BarangController: Data kategori
+deactivate KategoriModel
+BarangController --> BarangForm: Tampilkan form edit
+deactivate BarangController
+
+Admin -> BarangForm: Ubah data dan submit
+BarangForm -> BarangController: update(id, request)
+activate BarangController
+
+alt Data valid
+    BarangController -> BarangModel: Validasi & update data
+    activate BarangModel
+    BarangModel -> DB: UPDATE barang SET ...
+    DB --> BarangModel: Update berhasil
+    deactivate BarangModel
+
+    BarangController --> BarangIndex: Redirect ke index + notifikasi
+    deactivate BarangController
+    BarangIndex -> Admin: Tampilkan daftar + notifikasi
+else Data tidak valid
+    BarangController --> BarangForm: Redirect kembali ke form edit + error
+    deactivate BarangController
+    BarangForm -> Admin: Tampilkan pesan validasi
+end
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+actor Admin
+
+participant "Halaman Barang" as ProductPage
+participant "BarangController" as Controller
+participant "Model Barang" as ProductModel
+
+activate Admin
+Admin -> ProductPage: Akses halaman Barang
+ProductPage -> Controller: Panggil fungsi index()
+activate Controller
+
+Controller -> ProductModel: Ambil semua data barang
+activate ProductModel
+ProductModel --> Controller: Daftar barang
+deactivate ProductModel
+
+Controller --> ProductPage: Kirim data ke view
+deactivate Controller
+
+ProductPage -> Admin: Tampilkan daftar barang
+deactivate Admin
+
+@enduml

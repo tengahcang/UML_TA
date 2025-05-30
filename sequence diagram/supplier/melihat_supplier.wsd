@@ -1,0 +1,24 @@
+@startuml
+actor Admin
+
+participant "Halaman Supplier" as SupplierPage
+participant "SupplierController" as SupplierController
+participant "Model Supplier" as SupplierModel
+
+activate Admin
+Admin -> SupplierPage: Akses halaman supplier
+SupplierPage -> SupplierController: Panggil fungsi index()
+activate SupplierController
+
+SupplierController -> SupplierModel: Ambil semua data supplier
+activate SupplierModel
+SupplierModel --> SupplierController: Daftar supplier
+deactivate SupplierModel
+
+SupplierController --> SupplierPage: Kirim data ke view
+deactivate SupplierController
+
+SupplierPage -> Admin: Tampilkan daftar supplier
+deactivate Admin
+
+@enduml

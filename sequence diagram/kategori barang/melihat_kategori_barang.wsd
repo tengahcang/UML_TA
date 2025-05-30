@@ -1,0 +1,24 @@
+@startuml
+actor Admin
+
+participant "Halaman Kategori" as KategoriPage
+participant "KategoriController" as Controller
+participant "Model Kategori" as KategoriModel
+
+activate Admin
+Admin -> KategoriPage: Akses halaman kategori
+KategoriPage -> Controller: Panggil fungsi index()
+activate Controller
+
+Controller -> KategoriModel: Ambil semua data kategori
+activate KategoriModel
+KategoriModel --> Controller: Daftar kategori
+deactivate KategoriModel
+
+Controller --> KategoriPage: Kirim data ke view
+deactivate Controller
+
+KategoriPage -> Admin: Tampilkan daftar kategori
+deactivate Admin
+
+@enduml

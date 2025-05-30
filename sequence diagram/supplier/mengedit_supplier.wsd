@@ -1,0 +1,45 @@
+@startuml
+actor Admin
+
+participant "Halaman Index Supplier" as KategoriIndex
+participant "KategoriController" as Controller
+participant "Form Edit Supplier" as EditForm
+participant "Model Supplier" as KategoriModel
+participant "Database" as DB
+
+Admin -> KategoriIndex: Akses halaman supplier
+KategoriIndex -> Controller: index()
+activate Controller
+Controller --> KategoriIndex: View daftar supplier
+deactivate Controller
+
+Admin -> KategoriIndex: Klik tombol "Edit"
+KategoriIndex -> Controller: edit(id)
+activate Controller
+Controller -> KategoriModel: Ambil data supplier berdasarkan id
+activate KategoriModel
+KategoriModel --> Controller: Data supplier
+deactivate KategoriModel
+Controller --> EditForm: Tampilkan form edit
+deactivate Controller
+
+Admin -> EditForm: Ubah data dan submit
+EditForm -> Controller: update(id, request)
+activate Controller
+
+alt Data valid
+    Controller -> KategoriModel: Validasi & update data
+    activate KategoriModel
+    KategoriModel -> DB: UPDATE supplier SET ...
+    DB --> KategoriModel: Update berhasil
+    deactivate KategoriModel
+
+    Controller --> KategoriIndex: Redirect ke index + notifikasi
+    deactivate Controller
+    KategoriIndex -> Admin: Tampilkan daftar + notifikasi
+else Data tidak valid
+    Controller --> EditForm: Redirect kembali ke form edit + error
+    deactivate Controller
+    EditForm -> Admin: Tampilkan pesan validasi
+end
+@enduml

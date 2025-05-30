@@ -1,0 +1,23 @@
+@startuml
+actor Admin
+
+participant "Halaman Kulakan" as ProcurementPage
+participant "ProcurementController" as Controller
+participant "Model Kulakan" as ProcurementModel
+
+activate Admin
+Admin -> ProcurementPage: Akses halaman kulakan
+ProcurementPage -> Controller: Panggil fungsi index()
+activate Controller
+
+Controller -> ProcurementModel: Ambil semua data kulakan
+activate ProcurementModel
+ProcurementModel --> Controller: Daftar data kulakan
+deactivate ProcurementModel
+
+Controller --> ProcurementPage: Kirim data ke view
+deactivate Controller
+
+ProcurementPage -> Admin: Tampilkan daftar kulakan
+deactivate Admin
+@enduml

@@ -1,0 +1,71 @@
+@startuml
+actor Admin
+
+participant "Halaman Index Kulakan" as KulakanIndex
+participant "ProcurementController" as Controller
+participant "Form Tambah Kulakan" as CreateForm
+participant "Model Supplier" as SupplierModel
+participant "Model Barang" as ProductModel
+participant "Model Kulakan" as ProcurementModel
+participant "Model Kulakan Detail" as ProcurementDetailsModel
+participant "Database" as DB
+
+' Admin buka halaman index
+Admin -> KulakanIndex: Akses halaman kulakan
+activate Admin
+KulakanIndex -> Controller: index()
+activate Controller
+Controller --> KulakanIndex: Tampilkan daftar kulakan
+deactivate Controller
+
+' Admin klik tombol tambah kulakan
+Admin -> KulakanIndex: Klik tombol "Tambah Kulakan"
+KulakanIndex -> Controller: create()
+activate Controller
+
+' Controller ambil data supplier dan barang
+Controller -> SupplierModel: Ambil data supplier
+activate SupplierModel
+SupplierModel --> Controller: Data supplier
+deactivate SupplierModel
+
+Controller -> ProductModel: Ambil data barang
+activate ProductModel
+ProductModel --> Controller: Data barang
+deactivate ProductModel
+
+' Tampilkan form dengan data supplier & barang
+Controller --> CreateForm: View form tambah kulakan
+deactivate Controller
+
+' Admin isi form dan submit
+Admin -> CreateForm: Isi form & submit
+CreateForm -> Controller: store(request)
+activate Controller
+
+alt Data valid
+    Controller -> ProcurementModel: Simpan data kulakan (header)
+    activate ProcurementModel
+    ProcurementModel -> DB: INSERT INTO procurements
+    DB --> ProcurementModel: ID kulakan
+    deactivate ProcurementModel
+
+    loop Setiap barang dalam kulakan
+        Controller -> ProcurementDetailsModel: Simpan detail kulakan
+        activate ProcurementDetailsModel
+        ProcurementDetailsModel -> DB: INSERT INTO procurement_details
+        DB --> ProcurementDetailsModel: OK
+        deactivate ProcurementDetailsModel
+    end
+
+    Controller --> KulakanIndex: Redirect ke index + notifikasi sukses
+    deactivate Controller
+    KulakanIndex -> Admin: Tampilkan daftar + notifikasi
+else Data tidak valid
+    Controller --> CreateForm: Redirect kembali ke form + pesan error
+    deactivate Controller
+    CreateForm -> Admin: Tampilkan pesan validasi
+end
+
+deactivate Admin
+@enduml

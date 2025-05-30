@@ -1,0 +1,89 @@
+@startuml
+actor Admin
+
+participant "Halaman Index Kulakan" as KulakanIndex
+participant "ProcurementController" as Controller
+participant "Form Edit Kulakan" as EditForm
+participant "Model Supplier" as SupplierModel
+participant "Model Barang" as ProductModel
+participant "Model Kulakan" as ProcurementModel
+participant "Model Kulakan Detail" as ProcurementDetailsModel
+participant "Database" as DB
+
+' Admin buka halaman index
+Admin -> KulakanIndex: Akses halaman kulakan
+KulakanIndex -> Controller: index()
+activate Controller
+Controller --> KulakanIndex: Tampilkan daftar kulakan
+deactivate Controller
+
+' Admin klik tombol Edit
+Admin -> KulakanIndex: Klik tombol "Edit"
+KulakanIndex -> Controller: edit(id)
+activate Controller
+
+' Ambil data header kulakan
+Controller -> ProcurementModel: Ambil data kulakan by ID
+activate ProcurementModel
+ProcurementModel --> Controller: Data kulakan
+deactivate ProcurementModel
+
+' Ambil data detail barang
+Controller -> ProcurementDetailsModel: Ambil detail barang by procurement_id
+activate ProcurementDetailsModel
+ProcurementDetailsModel --> Controller: Data detail barang
+deactivate ProcurementDetailsModel
+
+' Ambil data supplier dan barang (untuk dropdown)
+Controller -> SupplierModel: Ambil semua supplier
+activate SupplierModel
+SupplierModel --> Controller: Data supplier
+deactivate SupplierModel
+
+Controller -> ProductModel: Ambil semua barang
+activate ProductModel
+ProductModel --> Controller: Data barang
+deactivate ProductModel
+
+' Tampilkan form edit dengan semua data
+Controller --> EditForm: Tampilkan form edit
+deactivate Controller
+
+' Admin ubah data dan submit
+Admin -> EditForm: Ubah data & submit
+EditForm -> Controller: update(id, request)
+activate Controller
+
+alt Data valid
+    Controller -> ProcurementModel: Update data kulakan
+    activate ProcurementModel
+    ProcurementModel -> DB: UPDATE procurements SET ...
+    DB --> ProcurementModel: OK
+    deactivate ProcurementModel
+
+    ' Hapus detail lama
+    Controller -> ProcurementDetailsModel: Hapus detail by procurement_id
+    activate ProcurementDetailsModel
+    ProcurementDetailsModel -> DB: DELETE FROM procurement_details
+    DB --> ProcurementDetailsModel: OK
+    deactivate ProcurementDetailsModel
+
+    ' Simpan ulang detail barang baru
+    loop Setiap barang yang diinput
+        Controller -> ProcurementDetailsModel: Simpan detail barang baru
+        activate ProcurementDetailsModel
+        ProcurementDetailsModel -> DB: INSERT INTO procurement_details
+        DB --> ProcurementDetailsModel: OK
+        deactivate ProcurementDetailsModel
+    end
+
+    Controller --> KulakanIndex: Redirect ke index + notifikasi sukses
+    deactivate Controller
+    KulakanIndex -> Admin: Tampilkan daftar + notifikasi
+else Data tidak valid
+    Controller --> EditForm: Redirect kembali ke form + error
+    deactivate Controller
+    EditForm -> Admin: Tampilkan pesan validasi
+end
+
+@enduml

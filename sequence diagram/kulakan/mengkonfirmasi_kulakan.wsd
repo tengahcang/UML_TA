@@ -1,0 +1,54 @@
+@startuml
+actor Admin
+
+participant "Halaman Detail Kulakan" as DetailPage
+participant "ProcurementController" as Controller
+participant "Model Kulakan" as ProcurementModel
+participant "Model Kulakan Detail" as ProcurementDetailsModel
+participant "Model Barang" as ProductModel
+participant "Database" as DB
+
+' Admin akses detail kulakan
+Admin -> DetailPage: Akses halaman detail kulakan
+DetailPage -> Controller: show(id)
+activate Controller
+Controller -> ProcurementModel: Ambil data kulakan
+Controller -> ProcurementDetailsModel: Ambil semua detail
+activate ProcurementModel
+activate ProcurementDetailsModel
+ProcurementModel --> Controller: Data kulakan
+ProcurementDetailsModel --> Controller: Data detail barang
+deactivate ProcurementModel
+deactivate ProcurementDetailsModel
+Controller --> DetailPage: Tampilkan halaman detail
+deactivate Controller
+
+' Admin klik tombol Konfirmasi
+Admin -> DetailPage: Klik tombol "Konfirmasi"
+DetailPage -> Controller: confirm(id)
+activate Controller
+
+' Proses update untuk setiap barang
+loop setiap detail
+    Controller -> ProductModel: Ambil data barang
+    activate ProductModel
+    ProductModel --> Controller: Data barang lama (stok dan harga beli)
+    
+    Controller -> ProductModel: Update stok + hitung ulang harga beli
+    ProductModel -> DB: UPDATE products SET stock = ..., purchase_price = ...
+    DB --> ProductModel: OK
+    deactivate ProductModel
+end loop
+
+' Update status kulakan
+Controller -> ProcurementModel: update status = confirmed
+activate ProcurementModel
+ProcurementModel -> DB: UPDATE procurements SET status = 'confirmed'
+DB --> ProcurementModel: OK
+deactivate ProcurementModel
+
+Controller --> DetailPage: Redirect + notifikasi sukses
+deactivate Controller
+DetailPage -> Admin: Tampilkan pesan berhasil
+
+@enduml

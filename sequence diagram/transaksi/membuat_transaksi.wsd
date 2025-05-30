@@ -1,0 +1,70 @@
+@startuml
+actor Admin
+
+participant "Halaman Transaksi" as TransaksiPage
+participant "TransaksiController" as TransaksiController
+participant "Model Produk" as ProductModel
+participant "Model Transaksi" as TransaksiModel
+participant "Model TransaksiDetail" as TransaksiDetailModel
+participant "MidtransService" as Midtrans
+participant "Database" as DB
+
+Admin -> TransaksiPage: Akses halaman create transaksi
+activate TransaksiPage
+
+TransaksiPage -> TransaksiController: create()
+activate TransaksiController
+TransaksiController -> ProductModel: Ambil data produk
+ProductModel --> TransaksiController: Daftar produk
+TransaksiController --> TransaksiPage: Tampilkan form transaksi
+deactivate TransaksiController
+
+Admin -> TransaksiPage: Pilih produk dan jumlah
+Admin -> TransaksiPage: Pilih metode pembayaran
+
+Admin -> TransaksiPage: Klik tombol "Bayar"
+note right of TransaksiPage
+    Muncul modal input cash
+    atau QR dari Midtrans
+end note
+
+alt Pembayaran Cash
+    Admin -> TransaksiPage: Input uang tunai
+    TransaksiPage -> TransaksiPage: Hitung kembalian
+    Admin -> TransaksiPage: Klik "Konfirmasi Pembayaran"
+else Pembayaran QRIS
+    TransaksiPage -> Midtrans: Buat transaksi QR
+    activate Midtrans
+    Midtrans --> TransaksiPage: URL QR / Snap token
+    deactivate Midtrans
+
+    Admin -> TransaksiPage: Tunggu konfirmasi sukses
+    Admin -> TransaksiPage: Klik "OK"
+end
+
+TransaksiPage -> TransaksiController: store(request)
+activate TransaksiController
+
+TransaksiController -> TransaksiModel: Simpan data transaksi
+activate TransaksiModel
+TransaksiModel -> DB: INSERT INTO transaksi
+DB --> TransaksiModel: OK
+deactivate TransaksiModel
+
+loop setiap produk
+    TransaksiController -> TransaksiDetailModel: Simpan detail transaksi
+    activate TransaksiDetailModel
+    TransaksiDetailModel -> DB: INSERT INTO transaksi_detail
+    DB --> TransaksiDetailModel: OK
+    deactivate TransaksiDetailModel
+
+    TransaksiController -> ProductModel: Kurangi stok
+    activate ProductModel
+    ProductModel -> DB: UPDATE produk SET stok = stok - qty
+    DB --> ProductModel: OK
+    deactivate ProductModel
+end
+
+TransaksiController --> TransaksiPage: Redirect + notifikasi sukses
+deactivate TransaksiController
+@enduml

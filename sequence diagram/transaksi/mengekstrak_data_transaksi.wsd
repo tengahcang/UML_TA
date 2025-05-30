@@ -1,0 +1,45 @@
+@startuml
+actor Admin
+
+participant "Halaman Transaksi" as TransaksiPage
+participant "TransaksiController" as TransaksiController
+participant "Export Class\nTransaksiBulananExport" as ExportClass
+participant "Model Transaksi" as TransaksiModel
+participant "Model Transaksi Detail" as TransaksiDetailModel
+participant "Excel::download()" as ExcelDownload
+
+Admin -> TransaksiPage: Akses halaman transaksi
+activate TransaksiPage
+
+TransaksiPage -> Admin: Pilih bulan & tahun
+Admin -> TransaksiPage: Klik tombol "Ekspor"
+
+TransaksiPage -> TransaksiController: export(request)
+activate TransaksiController
+
+TransaksiController -> TransaksiController: Validasi request (bulan, tahun)
+
+TransaksiController -> ExportClass: new TransaksiBulananExport(bulan, tahun)
+activate ExportClass
+
+ExportClass -> TransaksiModel: Ambil transaksi berdasarkan bulan & tahun
+activate TransaksiModel
+
+TransaksiModel -> TransaksiDetailModel: Ambil detail transaksi
+activate TransaksiDetailModel
+
+TransaksiDetailModel --> TransaksiModel: Data detail
+deactivate TransaksiDetailModel
+
+TransaksiModel --> ExportClass: Data transaksi lengkap
+deactivate TransaksiModel
+
+ExportClass -> ExportClass: Format data & heading
+deactivate ExportClass
+
+TransaksiController -> ExcelDownload: download(ExportClass, namaFile.xlsx)
+deactivate TransaksiController
+
+ExcelDownload -> Admin: Prompt download file
+
+@enduml

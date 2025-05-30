@@ -1,0 +1,33 @@
+@startuml
+actor Admin
+
+participant "Halaman Index Kategori" as KategoriIndex
+participant "KategoriController" as Controller
+participant "Model Kategori" as KategoriModel
+participant "Database" as DB
+
+Admin -> KategoriIndex: Akses halaman kategori
+KategoriIndex -> Controller: index()
+activate Controller
+Controller --> KategoriIndex: View daftar kategori
+deactivate Controller
+
+Admin -> KategoriIndex: Klik tombol "Hapus"
+KategoriIndex -> Admin: Tampilkan dialog konfirmasi
+Admin -> KategoriIndex: Konfirmasi "Ya"
+
+KategoriIndex -> Controller: destroy(id)
+activate Controller
+
+Controller -> KategoriModel: Hapus data berdasarkan ID
+activate KategoriModel
+KategoriModel -> DB: DELETE FROM kategori_barang WHERE id = ...
+DB --> KategoriModel: Data dihapus
+deactivate KategoriModel
+
+Controller --> KategoriIndex: Redirect ke index + notifikasi
+deactivate Controller
+
+KategoriIndex -> Admin: Tampilkan daftar + notifikasi
+
+@enduml

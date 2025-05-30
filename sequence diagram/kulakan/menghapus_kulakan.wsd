@@ -1,0 +1,43 @@
+@startuml
+actor Admin
+
+participant "Halaman Index Kulakan" as KulakanIndex
+participant "ProcurementController" as Controller
+participant "Model Kulakan" as ProcurementModel
+participant "Model Kulakan Detail" as ProcurementDetailsModel
+participant "Database" as DB
+
+' Admin buka halaman index
+Admin -> KulakanIndex: Akses halaman kulakan
+KulakanIndex -> Controller: index()
+activate Controller
+Controller --> KulakanIndex: Tampilkan daftar kulakan
+deactivate Controller
+
+' Admin klik tombol hapus
+Admin -> KulakanIndex: Klik tombol "Hapus"
+KulakanIndex -> Admin: Tampilkan dialog konfirmasi
+Admin -> KulakanIndex: Konfirmasi "Ya"
+
+KulakanIndex -> Controller: destroy(id)
+activate Controller
+
+' Hapus semua detail barang terlebih dahulu
+Controller -> ProcurementDetailsModel: Hapus detail by procurement_id
+activate ProcurementDetailsModel
+ProcurementDetailsModel -> DB: DELETE FROM procurement_details
+DB --> ProcurementDetailsModel: OK
+deactivate ProcurementDetailsModel
+
+' Hapus data kulakan utama
+Controller -> ProcurementModel: Hapus procurement by id
+activate ProcurementModel
+ProcurementModel -> DB: DELETE FROM procurements
+DB --> ProcurementModel: OK
+deactivate ProcurementModel
+
+Controller --> KulakanIndex: Redirect ke index + notifikasi sukses
+deactivate Controller
+KulakanIndex -> Admin: Tampilkan daftar + notifikasi
+
+@enduml

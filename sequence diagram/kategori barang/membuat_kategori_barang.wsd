@@ -1,0 +1,43 @@
+@startuml
+actor Admin
+
+participant "Halaman Index Kategori" as KategoriIndex
+participant "KategoriController" as Controller
+participant "Form Tambah Kategori" as KategoriForm
+participant "Model Kategori" as KategoriModel
+participant "Database" as DB
+
+Admin -> KategoriIndex: Akses halaman kategori
+activate Admin
+KategoriIndex -> Controller: index()
+activate Controller
+Controller --> KategoriIndex: View daftar kategori
+deactivate Controller
+
+Admin -> KategoriIndex: Klik tombol "Tambah Kategori"
+KategoriIndex -> Controller: create()
+activate Controller
+Controller --> KategoriForm: View form tambah kategori
+deactivate Controller
+
+Admin -> KategoriForm: Isi form dan submit
+KategoriForm -> Controller: store(request)
+activate Controller
+
+alt Data valid
+    Controller -> KategoriModel: Validasi & simpan data
+    activate KategoriModel
+    KategoriModel -> DB: INSERT INTO kategori_barang
+    DB --> KategoriModel: Data berhasil disimpan
+    deactivate KategoriModel
+
+    Controller --> KategoriIndex: Redirect ke index + notifikasi sukses
+    deactivate Controller
+    KategoriIndex -> Admin: Tampilkan daftar + notifikasi
+else Data tidak valid
+    Controller --> KategoriForm: Redirect ke form dengan error
+    deactivate Controller
+    KategoriForm -> Admin: Tampilkan pesan validasi
+end
+
+@enduml

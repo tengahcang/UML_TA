@@ -1,0 +1,38 @@
+@startuml
+
+actor Pengguna
+participant "Halaman Login" as Login
+participant "Kontrol Autentikasi" as Auth
+participant "Model Pengguna" as UserModel
+participant "Session" as Session
+participant "Dashboard" as Dashboard
+
+activate Pengguna
+Pengguna -> Login: Buka halaman login
+
+Pengguna -> Login: Masukkan username & password
+deactivate Pengguna
+
+Login -> Auth: Kirim data login
+
+activate Auth
+
+Auth -> UserModel: Cari pengguna berdasarkan username
+activate UserModel
+UserModel --> Auth: Kembalikan data pengguna
+deactivate UserModel
+
+alt Password sesuai
+    Auth -> Session: Buat sesi login
+    activate Session
+    Session --> Auth: Sesi berhasil
+    deactivate Session
+
+    Auth -> Dashboard: Redirect ke halaman dashboard
+else Password salah
+    Auth -> Login: Tampilkan pesan error
+end
+
+deactivate Auth
+
+@enduml
