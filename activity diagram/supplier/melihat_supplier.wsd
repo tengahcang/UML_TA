@@ -1,0 +1,10 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Supplier";
+|System|
+:Ambil semua data supplier dari database;
+:Tampilkan daftar supplier ke user;
+stop
+@enduml

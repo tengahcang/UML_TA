@@ -1,0 +1,19 @@
+@startuml
+|User|
+start
+:Berada di halaman Dashboard;
+
+:Klik menu dropdown di navbar;
+:Klik tombol Logout;
+
+|System (Laravel)|
+:Submit form logout\n (POST ke /logout);
+:Validasi token CSRF;
+:Proses logout\n (Auth::logout);
+:Hapus sesi user;
+
+:Redirect ke halaman login;
+
+|User|
+stop
+@enduml

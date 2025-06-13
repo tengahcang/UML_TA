@@ -1,0 +1,27 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Barang";
+:Klik tombol "Edit"\npada salah satu barang;
+
+|System|
+:Ambil data barang\nberdasarkan ID;
+:Ambil data kategori barang;
+:Tampilkan form edit barang\ndengan data yang sudah ada;
+
+|User|
+:Ubah data barang\n(misal harga, stok, nama, kategori);
+:Klik tombol "Update";
+
+|System|
+if (Validasi data?) then (Valid)
+  :Update data barang\ndi database;
+  :Redirect ke halaman\ndaftar barang;
+  :Tampilkan notifikasi sukses;
+else (Tidak valid)
+  :Tampilkan pesan error\ndan kembali ke form;
+endif
+
+stop
+@enduml

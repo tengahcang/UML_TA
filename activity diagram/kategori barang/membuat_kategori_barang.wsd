@@ -1,0 +1,28 @@
+@startuml
+|User|
+start
+:Masuk ke halaman kategori barang;
+
+:Klik tombol "Tambah Kategori";
+
+|System|
+:Menampilkan form tambah kategori;
+
+|User|
+:Isi nama kategori;
+:Klik tombol "Simpan";
+
+|System|
+:Validasi input;
+
+if (Data valid?) then (Ya)
+    :Simpan data ke database;
+    :Tampilkan notifikasi sukses;
+    :Redirect ke halaman daftar kategori;
+else (Tidak)
+    :Kembali ke form;
+    :Tampilkan pesan error;
+endif
+
+stop
+@enduml

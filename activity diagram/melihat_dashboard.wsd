@@ -1,0 +1,23 @@
+@startuml
+|User|
+start
+:Login atau akses langsung ke URL dashboard;
+
+|System|
+:Periksa apakah user sudah login;
+if (Sudah login?) then (Ya)
+    :Ambil data ringkasan:
+    - Total transaksi hari ini
+    - Omset harian
+    - Produk terlaris
+    - Statistik grafik (mis. chart penjualan)
+
+    :Render tampilan dashboard;
+    :Tampilkan dashboard ke user;
+else (Tidak)
+    :Redirect ke halaman login;
+endif
+
+|User|
+stop
+@enduml

@@ -1,14 +1,15 @@
 @startuml
 actor Admin
 
-participant "Halaman Detail Kulakan" as DetailPage
-participant "ProcurementController" as Controller
-participant "Model Kulakan" as ProcurementModel
-participant "Model Kulakan Detail" as ProcurementDetailsModel
-participant "Model Barang" as ProductModel
-participant "Database" as DB
+boundary "Halaman Detail Kulakan" as DetailPage
+control "ProcurementController" as Controller
+entity "Model Kulakan" as ProcurementModel
+entity "Model Kulakan Detail" as ProcurementDetailsModel
+entity "Model Barang" as ProductModel
+database "Database" as DB
 
 ' Admin akses detail kulakan
+activate Admin
 Admin -> DetailPage: Akses halaman detail kulakan
 DetailPage -> Controller: show(id)
 activate Controller
@@ -50,5 +51,6 @@ deactivate ProcurementModel
 Controller --> DetailPage: Redirect + notifikasi sukses
 deactivate Controller
 DetailPage -> Admin: Tampilkan pesan berhasil
+deactivate Admin
 
 @enduml

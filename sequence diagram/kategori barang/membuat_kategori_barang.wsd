@@ -1,11 +1,11 @@
 @startuml
 actor Admin
 
-participant "Halaman Index Kategori" as KategoriIndex
-participant "KategoriController" as Controller
-participant "Form Tambah Kategori" as KategoriForm
-participant "Model Kategori" as KategoriModel
-participant "Database" as DB
+boundary "Halaman Index Kategori" as KategoriIndex
+control "KategoriController" as Controller
+boundary "Form Tambah Kategori" as KategoriForm
+entity "Model Kategori" as KategoriModel
+database "Database" as DB
 
 Admin -> KategoriIndex: Akses halaman kategori
 activate Admin

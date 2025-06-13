@@ -1,9 +1,9 @@
 @startuml
 actor Admin
 
-participant "Halaman Barang" as ProductPage
-participant "BarangController" as Controller
-participant "Model Barang" as ProductModel
+boundary "Halaman Barang" as ProductPage
+control "BarangController" as Controller
+entity "Model Barang" as ProductModel
 
 activate Admin
 Admin -> ProductPage: Akses halaman Barang

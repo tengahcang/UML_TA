@@ -1,12 +1,13 @@
 @startuml
 actor Admin
 
-participant "Halaman Transaksi" as TransaksiPage
-participant "TransaksiController" as Controller
-participant "Model Transaksi" as TransactionModel
-participant "Model Transaksi Detail" as DetailModel
-participant "View Struk Transaksi" as StrukView
+boundary "Halaman Transaksi" as TransaksiPage
+control "TransaksiController" as Controller
+entity "Model Transaksi" as TransactionModel
+entity "Model Transaksi Detail" as DetailModel
+boundary "View Struk Transaksi" as StrukView
 
+activate Admin
 Admin -> TransaksiPage: Klik tombol "Lihat" / "Cetak Struk"
 TransaksiPage -> Controller: show(id)
 activate Controller
@@ -28,5 +29,6 @@ StrukView -> Admin: Tampilkan struk di halaman
 
 Admin -> StrukView: Klik tombol "Cetak"
 StrukView -> Admin: Dialog print browser muncul
+deactivate Admin
 
 @enduml

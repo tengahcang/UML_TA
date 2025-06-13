@@ -1,0 +1,27 @@
+@startuml
+actor Admin
+
+boundary "Halaman User" as UserPage
+control "UserController" as Controller
+entity "Model User" as UserModel
+database "Database" as DB
+
+activate Admin
+Admin -> UserPage: Akses halaman user
+UserPage -> Controller: index()
+activate Controller
+
+Controller -> UserModel: Ambil semua data user
+activate UserModel
+UserModel -> DB: SELECT * FROM users
+DB --> UserModel: Data user
+UserModel --> Controller: Daftar user
+deactivate UserModel
+
+Controller --> UserPage: Kirim data ke view
+deactivate Controller
+
+UserPage -> Admin: Tampilkan daftar user
+deactivate Admin
+
+@enduml

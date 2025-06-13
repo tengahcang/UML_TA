@@ -1,12 +1,13 @@
 @startuml
 actor Admin
 
-participant "Halaman Index Kategori" as KategoriIndex
-participant "KategoriController" as Controller
-participant "Form Edit Kategori" as EditForm
-participant "Model Kategori" as KategoriModel
-participant "Database" as DB
+boundary "Halaman Index Kategori" as KategoriIndex
+control "KategoriController" as Controller
+boundary "Form Edit Kategori" as EditForm
+entity "Model Kategori" as KategoriModel
+database "Database" as DB
 
+activate Admin
 Admin -> KategoriIndex: Akses halaman kategori
 KategoriIndex -> Controller: index()
 activate Controller
@@ -42,4 +43,6 @@ else Data tidak valid
     deactivate Controller
     EditForm -> Admin: Tampilkan pesan validasi
 end
+deactivate Admin
+
 @enduml

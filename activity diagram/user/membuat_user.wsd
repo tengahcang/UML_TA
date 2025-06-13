@@ -1,0 +1,26 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "User";
+:Klik tombol "Tambah User";
+
+|System|
+:Menampilkan form tambah user;
+
+|User|
+:Input nama, email, password,\ndan peran user;
+:Klik tombol "Simpan";
+
+|System|
+if (Data valid?) then (Ya)
+  :Simpan data user ke database;
+  :Redirect ke halaman daftar user;
+  :Tampilkan notifikasi sukses;
+else (Tidak)
+  :Tampilkan pesan kesalahan validasi;
+  :Kembali ke form tambah user;
+endif
+
+stop
+@enduml

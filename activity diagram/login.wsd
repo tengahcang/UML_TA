@@ -1,0 +1,23 @@
+@startuml
+|User|
+start
+:Masukkan email\n dan password;
+:Klik tombol "Login";
+
+|System|
+:Validasi input form;
+if (Input valid?) then (Ya)
+  :Cek kecocokan email\n dan password di database;
+  if (Cocok?) then (Ya)
+    :Buat session /\n autentikasi user;
+    :Redirect ke dashboard;
+  else (Tidak)
+    :Tampilkan error "Email\n atau password salah";
+  endif
+else (Tidak)
+  :Tampilkan error\n validasi form;
+endif
+
+|User|
+stop
+@enduml

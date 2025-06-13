@@ -1,0 +1,19 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "User";
+:Klik tombol "Hapus"\npada salah satu user;
+:Tampilkan dialog konfirmasi;
+
+if (User konfirmasi hapus?) then (Ya)
+  |System|
+  :Hapus data user dari database;
+  :Redirect ke halaman daftar user;
+  :Tampilkan notifikasi sukses;
+else (Tidak)
+  :Batal hapus dan kembali\nke daftar user;
+endif
+
+stop
+@enduml

@@ -1,0 +1,33 @@
+@startuml
+actor Admin
+
+boundary "Halaman Dashboard" as DashboardPage
+boundary "Dropdown Navigasi (Navbar)" as Navbar
+boundary "Form Logout (Blade)" as LogoutForm
+control "AuthController" as Controller
+control "Sistem Autentikasi / Session" as AuthSystem
+boundary "Halaman Login" as LoginPage
+
+
+activate Admin
+Admin -> DashboardPage: Akses halaman dashboard
+DashboardPage -> Navbar: Lihat nama user di pojok atas
+Admin -> Navbar: Klik dropdown "Hi, {{ Auth::user()->name }}"
+Navbar -> Admin: Tampilkan menu, klik "Logout"
+
+Admin -> LogoutForm: Trigger submit form logout (JS)
+LogoutForm -> Controller: POST /logout
+activate Controller
+
+Controller -> AuthSystem: Hapus session / logout user
+activate AuthSystem
+AuthSystem --> Controller: Session dihapus
+deactivate AuthSystem
+
+Controller --> LoginPage: Redirect ke halaman login
+deactivate Controller
+
+LoginPage -> Admin: Tampilkan form login
+deactivate Admin
+
+@enduml

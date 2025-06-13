@@ -1,0 +1,26 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Supplier";
+:Klik tombol "Tambah Supplier";
+
+|System|
+:Tampilkan form tambah supplier;
+
+|User|
+:Isi form supplier\n(nama, alamat, telepon, dll);
+:Klik tombol "Simpan";
+
+|System|
+if (Validasi data benar?) then (ya)
+  :Simpan data supplier\n ke database;
+  :Redirect ke halaman\n daftar supplier;
+  :Tampilkan notifikasi sukses;
+else (tidak)
+  :Tampilkan pesan\n error validasi;
+  :Tampilkan kembali\n form tambah supplier;
+endif
+
+stop
+@enduml

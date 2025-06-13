@@ -1,0 +1,13 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Kulakan";
+:Halaman daftar kulakan\nterbuka;
+
+|System|
+:Ambil semua data kulakan\ndari database;
+:Tampilkan data kulakan\ndi tabel;
+
+stop
+@enduml

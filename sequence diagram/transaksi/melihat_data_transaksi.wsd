@@ -1,0 +1,24 @@
+@startuml
+actor Admin
+
+boundary "Halaman Transaksi" as TransaksiPage
+control "TransaksiController" as Controller
+entity "Model Transaksi" as TransaksiModel
+
+activate Admin
+Admin -> TransaksiPage: Akses halaman transaksi
+TransaksiPage -> Controller: index()
+activate Controller
+
+Controller -> TransaksiModel: Ambil semua data transaksi
+activate TransaksiModel
+TransaksiModel --> Controller: Daftar transaksi
+deactivate TransaksiModel
+
+Controller --> TransaksiPage: Tampilkan view transaksi
+deactivate Controller
+
+TransaksiPage -> Admin: Tampilkan daftar transaksi
+deactivate Admin
+
+@enduml

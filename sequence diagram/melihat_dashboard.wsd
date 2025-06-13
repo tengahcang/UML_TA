@@ -1,11 +1,11 @@
 @startuml
 actor super_admin
 
-participant "Halaman Dashboard" as DashboardPage
-participant "Dashboard Controller" as Controller
-participant "Model Transaksi" as Transaksi
-participant "Model Produk" as Produk
-participant "Model Kategori" as Kategori
+boundary "Halaman Dashboard" as DashboardPage
+control "Dashboard Controller" as Controller
+entity "Model Transaksi" as Transaksi
+entity "Model Produk" as Produk
+entity "Model Kategori" as Kategori
 
 activate super_admin
 super_admin -> DashboardPage: Akses dashboard

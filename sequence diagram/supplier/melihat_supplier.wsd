@@ -1,9 +1,9 @@
 @startuml
 actor Admin
 
-participant "Halaman Supplier" as SupplierPage
-participant "SupplierController" as SupplierController
-participant "Model Supplier" as SupplierModel
+boundary "Halaman Supplier" as SupplierPage
+control "SupplierController" as SupplierController
+entity "Model Supplier" as SupplierModel
 
 activate Admin
 Admin -> SupplierPage: Akses halaman supplier

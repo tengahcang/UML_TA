@@ -1,0 +1,27 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Supplier";
+:Klik tombol "Edit" pada\n baris supplier yang dipilih;
+
+|System|
+:Ambil data supplier berdasarkan ID;
+:Tampilkan form edit supplier dengan data lama;
+
+|User|
+:Ubah data supplier;
+:Klik tombol "Simpan";
+
+|System|
+if (Validasi data benar?) then (ya)
+  :Update data supplier\n di database;
+  :Redirect ke halaman\n daftar supplier;
+  :Tampilkan notifikasi sukses;
+else (tidak)
+  :Tampilkan pesan\n error validasi;
+  :Tampilkan kembali\n form edit supplier;
+endif
+
+stop
+@enduml

@@ -1,9 +1,9 @@
 @startuml
 actor Admin
 
-participant "Halaman Kulakan" as ProcurementPage
-participant "ProcurementController" as Controller
-participant "Model Kulakan" as ProcurementModel
+boundary "Halaman Kulakan" as ProcurementPage
+control "ProcurementController" as Controller
+entity "Model Kulakan" as ProcurementModel
 
 activate Admin
 Admin -> ProcurementPage: Akses halaman kulakan

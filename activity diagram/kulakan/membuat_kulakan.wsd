@@ -1,0 +1,34 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Kulakan";
+:Klik tombol "Tambah Kulakan";
+
+|System|
+:Ambil data supplier dan\nbarang dari database;
+:Tampilkan form tambah kulakan;
+
+|User|
+:User memilih supplier;
+:User menambahkan satu\natau lebih barang;
+
+repeat
+  :User mengisi jumlah dan harga beli\nuntuk setiap barang;
+repeat while (Ada barang lain?)
+
+:Klik tombol "Simpan";
+
+|System|
+:Validasi data;
+if (Data valid?) then (Ya)
+  :Simpan data kulakan ke tabel kulakan;
+  :Simpan detail barang ke\ntabel kulakan_detail;
+  :Redirect ke halaman kulakan;
+  :Tampilkan notifikasi sukses;
+else (Tidak)
+  :Tampilkan pesan error dan\nkembali ke form;
+endif
+
+stop
+@enduml

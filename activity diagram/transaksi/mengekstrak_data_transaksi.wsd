@@ -1,0 +1,27 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Transaksi";
+
+|System|
+:Tampilkan halaman daftar transaksi;
+
+|User|
+:User mengisi bulan dan tahun;
+:Klik tombol "Ekspor";
+
+|System|
+:Validasi input bulan & tahun;
+if (Input valid?) then (Ya)
+    :Eksekusi controller export();
+    :Instansiasi TransaksiBulananExport\n(dengan bulan & tahun);
+    :Ambil data transaksi sesuai bulan & tahun;
+    :Bangun file Excel;
+    :Kirim file ke user (download);
+else (Tidak)
+    :Tampilkan pesan validasi error;
+endif
+
+stop
+@enduml

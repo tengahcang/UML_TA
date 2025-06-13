@@ -1,0 +1,10 @@
+@startuml
+|Admin|
+start
+:Login ke sistem;
+:Klik menu "User";
+|System|
+:Ambil seluruh data user dari database;
+:Tampilkan daftar user;
+stop
+@enduml

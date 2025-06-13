@@ -1,11 +1,11 @@
 @startuml
 
 actor Pengguna
-participant "Halaman Login" as Login
-participant "Kontrol Autentikasi" as Auth
-participant "Model Pengguna" as UserModel
-participant "Session" as Session
-participant "Dashboard" as Dashboard
+boundary "Halaman Login" as Login
+control "Kontrol Autentikasi" as Auth
+entity "Model Pengguna" as UserModel
+control "Session" as Session
+boundary "Dashboard" as Dashboard
 
 activate Pengguna
 Pengguna -> Login: Buka halaman login

@@ -1,0 +1,43 @@
+@startuml
+actor Admin
+
+boundary "Halaman Index User" as UserIndex
+control "UserController" as Controller
+boundary "Form Tambah User" as UserForm
+entity "Model User" as UserModel
+database "Database" as DB
+
+activate Admin
+Admin -> UserIndex: Akses halaman user
+UserIndex -> Controller: index()
+activate Controller
+Controller --> UserIndex: View daftar user
+deactivate Controller
+
+Admin -> UserIndex: Klik tombol "Tambah User"
+UserIndex -> Controller: create()
+activate Controller
+Controller --> UserForm: View form tambah user
+deactivate Controller
+
+Admin -> UserForm: Isi form dan submit
+UserForm -> Controller: store(request)
+activate Controller
+
+alt Data valid
+    Controller -> UserModel: Validasi & simpan data
+    activate UserModel
+    UserModel -> DB: INSERT INTO users ...
+    DB --> UserModel: Data berhasil disimpan
+    deactivate UserModel
+
+    Controller --> UserIndex: Redirect ke index + notifikasi sukses
+    deactivate Controller
+    UserIndex -> Admin: Tampilkan daftar + notifikasi
+else Data tidak valid
+    Controller --> UserForm: Redirect ke form dengan error
+    deactivate Controller
+    UserForm -> Admin: Tampilkan pesan validasi
+end
+deactivate Admin
+@enduml

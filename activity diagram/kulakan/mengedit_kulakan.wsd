@@ -1,0 +1,35 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Kulakan";
+:Klik tombol "Edit"\npada salah satu kulakan;
+
+|System|
+:Ambil data kulakan dan\nbarang terkait dari database;
+:Ambil data supplier dan barang;
+:Tampilkan form edit kulakan;
+
+|User|
+:Ubah supplier (opsional);
+:Ubah daftar barang,\njumlah, dan harga beli;
+
+repeat
+  :Sesuaikan data untuk\nsetiap item kulakan;
+repeat while (Ada item lain?)
+
+:Klik tombol "Simpan Perubahan";
+
+|System|
+:Validasi data;
+if (Data valid?) then (Ya)
+  :Update data kulakan;
+  :Update data detail kulakan;
+  :Redirect ke halaman kulakan;
+  :Tampilkan notifikasi sukses;
+else (Tidak)
+  :Tampilkan pesan error\nke form edit;
+endif
+
+stop
+@enduml

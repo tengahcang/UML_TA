@@ -1,0 +1,19 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Kategori Barang";
+:Klik tombol "Hapus"\npada salah satu Kategori Barang;
+:Tampilkan dialog konfirmasi;
+
+if (User konfirmasi hapus?) then (Ya)
+  |System|
+  :Hapus data Kategori Barang\ndari database;
+  :Redirect ke halaman\ndaftar Kategori Barang;
+  :Tampilkan notifikasi sukses;
+else (Tidak)
+  :Batal hapus dan kembali\nke daftar Kategori Barang;
+endif
+
+stop
+@enduml

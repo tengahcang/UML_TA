@@ -1,11 +1,11 @@
 @startuml
 actor Admin
 
-participant "Halaman Index Supplier" as SupplierIndex
-participant "SupplierController" as SupplierController
-participant "Form Tambah Supplier" as SupplierForm
-participant "Model Supplier" as SupplierModel
-participant "Database" as DB
+boundary "Halaman Index Supplier" as SupplierIndex
+control "SupplierController" as SupplierController
+boundary "Form Tambah Supplier" as SupplierForm
+entity "Model Supplier" as SupplierModel
+database "Database" as DB
 
 Admin -> SupplierIndex: Akses halaman supplier
 activate Admin

@@ -1,0 +1,35 @@
+@startuml
+actor Admin
+
+boundary "Halaman Index User" as UserIndex
+control "UserController" as Controller
+entity "Model User" as UserModel
+database "Database" as DB
+
+activate Admin
+Admin -> UserIndex: Akses halaman user
+UserIndex -> Controller: index()
+activate Controller
+Controller --> UserIndex: Tampilkan daftar user
+deactivate Controller
+
+Admin -> UserIndex: Klik tombol "Hapus"
+UserIndex -> Admin: Tampilkan dialog konfirmasi
+Admin -> UserIndex: Konfirmasi "Ya"
+
+UserIndex -> Controller: destroy(id)
+activate Controller
+
+Controller -> UserModel: Hapus user berdasarkan ID
+activate UserModel
+UserModel -> DB: DELETE FROM users WHERE id = ...
+DB --> UserModel: OK
+deactivate UserModel
+
+Controller --> UserIndex: Redirect ke index + notifikasi
+deactivate Controller
+
+UserIndex -> Admin: Tampilkan daftar user + notifikasi
+deactivate Admin
+
+@enduml

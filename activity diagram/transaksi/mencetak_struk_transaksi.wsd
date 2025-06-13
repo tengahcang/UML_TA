@@ -1,0 +1,24 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Transaksi";
+
+|System|
+:Tampilkan daftar transaksi;
+
+|User|
+:User memilih transaksi tertentu;
+:Klik tombol "Lihat / Detail Transaksi";
+
+|System|
+:Tampilkan detail transaksi;
+
+|User|
+:Klik tombol "Cetak Struk";
+
+|System|
+:Generate file struk (PDF atau langsung ke printer);
+:Tampilkan/unduh struk atau kirim ke printer;
+stop
+@enduml

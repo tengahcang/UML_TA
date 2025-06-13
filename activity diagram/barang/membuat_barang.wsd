@@ -1,0 +1,26 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Barang";
+:Klik tombol "Tambah Barang";
+
+|System|
+:Ambil data kategori\nbarang dari database;
+:Tampilkan form tambah\nbarang dengan pilihan kategori;
+
+|User|
+:Isi data barang\n(nama, harga, stok, kategori, dll);
+:Klik tombol "Simpan";
+
+|System|
+if (Validasi data?) then (Valid)
+  :Simpan data ke\ntabel barang;
+  :Redirect ke halaman\ndaftar barang;
+  :Tampilkan notifikasi sukses;
+else (Tidak valid)
+  :Tampilkan pesan error\ndan kembali ke form;
+endif
+
+stop
+@enduml

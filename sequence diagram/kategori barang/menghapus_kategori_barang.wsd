@@ -1,11 +1,12 @@
 @startuml
 actor Admin
 
-participant "Halaman Index Kategori" as KategoriIndex
-participant "KategoriController" as Controller
-participant "Model Kategori" as KategoriModel
-participant "Database" as DB
+boundary "Halaman Index Kategori" as KategoriIndex
+control "KategoriController" as Controller
+entity "Model Kategori" as KategoriModel
+database "Database" as DB
 
+activate Admin
 Admin -> KategoriIndex: Akses halaman kategori
 KategoriIndex -> Controller: index()
 activate Controller
@@ -29,5 +30,6 @@ Controller --> KategoriIndex: Redirect ke index + notifikasi
 deactivate Controller
 
 KategoriIndex -> Admin: Tampilkan daftar + notifikasi
+deactivate Admin
 
 @enduml

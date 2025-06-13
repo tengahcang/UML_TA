@@ -1,9 +1,9 @@
 @startuml
 actor Admin
 
-participant "Halaman Kategori" as KategoriPage
-participant "KategoriController" as Controller
-participant "Model Kategori" as KategoriModel
+boundary "Halaman Kategori" as KategoriPage
+control "KategoriController" as Controller
+entity "Model Kategori" as KategoriModel
 
 activate Admin
 Admin -> KategoriPage: Akses halaman kategori

@@ -1,11 +1,12 @@
 @startuml
 actor Admin
 
-participant "Halaman Index Supplier" as SupplierIndex
-participant "SupplierController" as SupplierController
-participant "Model Supplier" as SupplierModel
-participant "Database" as DB
+boundary "Halaman Index Supplier" as SupplierIndex
+control "SupplierController" as SupplierController
+entity "Model Supplier" as SupplierModel
+database "Database" as DB
 
+activate Admin
 Admin -> SupplierIndex: Akses halaman supplier
 SupplierIndex -> SupplierController: index()
 activate SupplierController
@@ -29,5 +30,6 @@ SupplierController --> SupplierIndex: Redirect ke index + notifikasi
 deactivate SupplierController
 
 SupplierIndex -> Admin: Tampilkan daftar + notifikasi
+deactivate Admin
 
 @enduml

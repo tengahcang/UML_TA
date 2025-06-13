@@ -1,0 +1,12 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Barang";
+
+|System|
+:Ambil data semua\nbarang dari database;
+:Tampilkan daftar barang;
+
+stop
+@enduml

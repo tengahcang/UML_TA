@@ -1,0 +1,19 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Kulakan";
+:Klik tombol "Hapus"\npada salah satu kulakan;
+:Tampilkan dialog konfirmasi;
+
+if (User konfirmasi hapus?) then (Ya)
+  |System|
+  :Hapus data kulakan\ndan detail kulakan dari database;
+  :Redirect ke halaman kulakan;
+  :Tampilkan notifikasi sukses;
+else (Tidak)
+  :Batal hapus dan kembali\nke daftar kulakan;
+endif
+
+stop
+@enduml

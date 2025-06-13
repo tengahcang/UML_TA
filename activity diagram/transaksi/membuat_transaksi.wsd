@@ -1,0 +1,38 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Transaksi";
+
+:Klik tombol "Tambah Transaksi";
+
+|System|
+:Arahkan ke halaman form transaksi;
+
+|User|
+:Scan barcode / pilih produk;
+' :Masukkan jumlah dan tambah ke keranjang;
+:Ulangi sampai semua produk dipilih;
+
+:Klik tombol "Pilih Pembayaran";
+:User memilih metode pembayaran (Cash / QRIS);
+
+if (metode pembayaran) then (Cash)
+  :Klik tombol "Bayar";
+  :Masukkan jumlah uang\n cash yang diterima;
+  :Sistem menghitung dan\n menampilkan kembalian;
+  :Klik "Konfirmasi Pembayaran";
+else (QRIS)
+  :Klik tombol "Bayar";
+  :Pilih metode QRIS;
+  :Tunggu sampai pembayaran\n dikonfirmasi oleh Midtrans;
+  :Klik tombol "OK" saat sukses;
+endif
+
+|System|
+:Validasi data transaksi;
+:Hitung total harga dan\n simpan ke database;
+:Kurangi stok setiap barang\n dalam detail transaksi;
+:Tampilkan notifikasi sukses;
+stop
+@enduml

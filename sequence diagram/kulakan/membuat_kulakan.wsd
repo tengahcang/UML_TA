@@ -1,14 +1,14 @@
 @startuml
 actor Admin
 
-participant "Halaman Index Kulakan" as KulakanIndex
-participant "ProcurementController" as Controller
-participant "Form Tambah Kulakan" as CreateForm
-participant "Model Supplier" as SupplierModel
-participant "Model Barang" as ProductModel
-participant "Model Kulakan" as ProcurementModel
-participant "Model Kulakan Detail" as ProcurementDetailsModel
-participant "Database" as DB
+boundary "Halaman Index Kulakan" as KulakanIndex
+control "ProcurementController" as Controller
+boundary "Form Tambah Kulakan" as CreateForm
+entity "Model Supplier" as SupplierModel
+entity "Model Barang" as ProductModel
+entity "Model Kulakan" as ProcurementModel
+entity "Model Kulakan Detail" as ProcurementDetailsModel
+database "Database" as DB
 
 ' Admin buka halaman index
 Admin -> KulakanIndex: Akses halaman kulakan

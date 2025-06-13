@@ -1,0 +1,13 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+
+:Klik menu "Kategori Barang";
+
+|System|
+:Ambil data semua kategori dari database;
+:Tampilkan daftar kategori ke user;
+
+stop
+@enduml

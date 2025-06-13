@@ -1,0 +1,20 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Kulakan";
+:Klik tombol "Konfirmasi"\npada salah satu kulakan;
+
+|System|
+:Ambil data kulakan\ndan detail kulakan;
+repeat
+  :Tambah stok barang\ndengan jumlah kulakan;
+  :Hitung ulang harga beli\ndengan rata-rata tertimbang;
+repeat while (Ada item lain?)
+
+:Update status kulakan menjadi\n"terkonfirmasi";
+:Redirect ke halaman daftar kulakan;
+:Tampilkan notifikasi sukses;
+
+stop
+@enduml

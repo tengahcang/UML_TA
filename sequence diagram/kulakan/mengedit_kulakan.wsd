@@ -1,16 +1,17 @@
 @startuml
 actor Admin
 
-participant "Halaman Index Kulakan" as KulakanIndex
-participant "ProcurementController" as Controller
-participant "Form Edit Kulakan" as EditForm
-participant "Model Supplier" as SupplierModel
-participant "Model Barang" as ProductModel
-participant "Model Kulakan" as ProcurementModel
-participant "Model Kulakan Detail" as ProcurementDetailsModel
-participant "Database" as DB
+boundary "Halaman Index Kulakan" as KulakanIndex
+control "ProcurementController" as Controller
+boundary "Form Edit Kulakan" as EditForm
+entity "Model Supplier" as SupplierModel
+entity "Model Barang" as ProductModel
+entity "Model Kulakan" as ProcurementModel
+entity "Model Kulakan Detail" as ProcurementDetailsModel
+database "Database" as DB
 
 ' Admin buka halaman index
+activate Admin
 Admin -> KulakanIndex: Akses halaman kulakan
 KulakanIndex -> Controller: index()
 activate Controller
@@ -85,5 +86,6 @@ else Data tidak valid
     deactivate Controller
     EditForm -> Admin: Tampilkan pesan validasi
 end
+deactivate Admin
 
 @enduml

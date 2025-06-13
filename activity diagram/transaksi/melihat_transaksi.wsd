@@ -1,0 +1,9 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Transaksi";
+|System|
+:Tampilkan seluruh data transaksi;
+stop
+@enduml

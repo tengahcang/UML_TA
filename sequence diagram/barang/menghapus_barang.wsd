@@ -1,10 +1,10 @@
 @startuml
 actor Admin
 
-participant "Halaman Index Barang" as BarangIndex
-participant "BarangController" as BarangController
-participant "Model Barang" as BarangModel
-participant "Database" as DB
+boundary "Halaman Index Barang" as BarangIndex
+control "BarangController" as BarangController
+entity "Model Barang" as BarangModel
+database "Database" as DB
 
 Admin -> BarangIndex: Akses halaman barang
 activate Admin

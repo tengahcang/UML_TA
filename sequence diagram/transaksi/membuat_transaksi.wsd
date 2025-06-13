@@ -1,14 +1,15 @@
 @startuml
 actor Admin
 
-participant "Halaman Transaksi" as TransaksiPage
-participant "TransaksiController" as TransaksiController
-participant "Model Produk" as ProductModel
-participant "Model Transaksi" as TransaksiModel
-participant "Model TransaksiDetail" as TransaksiDetailModel
+boundary "Halaman Transaksi" as TransaksiPage
+control "TransaksiController" as TransaksiController
+entity "Model Produk" as ProductModel
+entity "Model Transaksi" as TransaksiModel
+entity "Model TransaksiDetail" as TransaksiDetailModel
 participant "MidtransService" as Midtrans
-participant "Database" as DB
+database "Database" as DB
 
+activate Admin
 Admin -> TransaksiPage: Akses halaman create transaksi
 activate TransaksiPage
 
@@ -41,6 +42,7 @@ else Pembayaran QRIS
     Admin -> TransaksiPage: Tunggu konfirmasi sukses
     Admin -> TransaksiPage: Klik "OK"
 end
+deactivate Admin
 
 TransaksiPage -> TransaksiController: store(request)
 activate TransaksiController

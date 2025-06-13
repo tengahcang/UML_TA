@@ -1,0 +1,47 @@
+@startuml
+actor Admin
+
+boundary "Halaman Index User" as UserIndex
+control "UserController" as Controller
+boundary "Form Edit User" as EditForm
+entity "Model User" as UserModel
+database "Database" as DB
+
+activate Admin
+Admin -> UserIndex: Akses halaman user
+UserIndex -> Controller: index()
+activate Controller
+Controller --> UserIndex: Tampilkan daftar user
+deactivate Controller
+
+Admin -> UserIndex: Klik tombol "Edit"
+UserIndex -> Controller: edit(id)
+activate Controller
+Controller -> UserModel: Ambil data user berdasarkan id
+activate UserModel
+UserModel --> Controller: Data user
+deactivate UserModel
+Controller --> EditForm: Tampilkan form edit
+deactivate Controller
+
+Admin -> EditForm: Ubah data dan submit
+EditForm -> Controller: update(id, request)
+activate Controller
+
+alt Data valid
+    Controller -> UserModel: Validasi & update data
+    activate UserModel
+    UserModel -> DB: UPDATE users SET ...
+    DB --> UserModel: Update berhasil
+    deactivate UserModel
+
+    Controller --> UserIndex: Redirect ke index + notifikasi
+    deactivate Controller
+    UserIndex -> Admin: Tampilkan daftar + notifikasi
+else Data tidak valid
+    Controller --> EditForm: Redirect kembali ke form edit + error
+    deactivate Controller
+    EditForm -> Admin: Tampilkan pesan validasi
+end
+deactivate Admin
+@enduml

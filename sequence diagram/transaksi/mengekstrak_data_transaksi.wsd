@@ -1,13 +1,14 @@
 @startuml
 actor Admin
 
-participant "Halaman Transaksi" as TransaksiPage
-participant "TransaksiController" as TransaksiController
-participant "Export Class\nTransaksiBulananExport" as ExportClass
-participant "Model Transaksi" as TransaksiModel
-participant "Model Transaksi Detail" as TransaksiDetailModel
+boundary "Halaman Transaksi" as TransaksiPage
+control "TransaksiController" as TransaksiController
+control "Export Class\nTransaksiBulananExport" as ExportClass
+entity "Model Transaksi" as TransaksiModel
+entity "Model Transaksi Detail" as TransaksiDetailModel
 participant "Excel::download()" as ExcelDownload
 
+activate Admin
 Admin -> TransaksiPage: Akses halaman transaksi
 activate TransaksiPage
 
@@ -41,5 +42,5 @@ TransaksiController -> ExcelDownload: download(ExportClass, namaFile.xlsx)
 deactivate TransaksiController
 
 ExcelDownload -> Admin: Prompt download file
-
+deactivate Admin
 @enduml

@@ -1,0 +1,38 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+
+actor "Admin" as Admin
+actor "User (Peminjam)" as User
+
+rectangle "Aplikasi Logistik" {
+
+
+    '   User --> (Mengajukan Peminjaman Barang)
+    User --> (Melihat Status Peminjaman)
+    User --> (Membuat Laporan Barang Rusak)
+
+
+    Admin --> (Melihat Daftar Pengajuan)
+    ' Admin --> (Menyetujui Barang dalam Peminjaman)
+    ' Admin --> (Menolak Barang dalam Peminjaman)
+    ' Admin --> (Menghapus Pengajuan Peminjaman)
+    ' Admin --> (Membuat Surat Peminjaman)
+    Admin --> (Melihat Status Barang Rusak)
+    ' Admin --> (Memperbarui Status Barang)
+
+
+    (Melihat Daftar Pengajuan) .--> (Mengubah Status Barang dalam Peminjaman) : <<include>>
+    (Melihat Daftar Pengajuan) .--> (Menghapus Pengajuan Peminjaman) : <<include>>
+    (Melihat Daftar Pengajuan) .--> (Mencetak Surat Peminjaman) : <<include>>
+    (Melihat Status Barang Rusak) .--> (Memperbarui Status Barang) : <<include>>
+    ' (Membuat Surat Peminjaman) .--> (Menyetujui Barang dalam Peminjaman) : <<include>>
+    ' (Memperbarui Status Barang) .--> (Mengecek Status Barang) : <<include>>
+
+    (Melihat Status Peminjaman) .--> (Mengajukan Peminjaman Barang) : <<include>>
+
+
+}
+
+@enduml
