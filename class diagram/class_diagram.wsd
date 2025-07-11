@@ -89,6 +89,28 @@ class ProcurementDetail {
   +harga: float
 }
 
+class Adjustment {
+  +id: int
+  +adjusted_at: date
+  +user_id: int
+  +total_loss: int
+
+  +index(): List<Adjustment>
+  +show(id): Adjustment
+  +edit(id): Adjustment
+  +update(id, data): void
+}
+
+class AdjustmentItem {
+  +id: int
+  +adjustment_id: int
+  +product_id: int
+  +stock_before: int
+  +stock_after: int
+  +difference: int
+  +loss_value: int
+}
+
 class Transaksi {
   +id: int
   +user_id: int
@@ -124,5 +146,8 @@ Supplier --> Procurement
 Procurement --> ProcurementDetail
 Transaksi --> TransaksiDetail
 Procurement --> User : created_by
+User --> Adjustment
+Adjustment --> AdjustmentItem
+Barang --> AdjustmentItem : product_id
 
 @enduml

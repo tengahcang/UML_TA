@@ -1,0 +1,24 @@
+@startuml
+actor Admin
+
+boundary "Halaman Penyesuaian Stok" as AdjustmentPage
+control "PenyesuaianStokController" as Controller
+entity "Model Penyesuaian Stok" as AdjustmentModel
+
+activate Admin
+Admin -> AdjustmentPage: Akses halaman penyesuaian stok
+AdjustmentPage -> Controller: Panggil fungsi index()
+activate Controller
+
+Controller -> AdjustmentModel: Ambil semua data penyesuaian stok
+activate AdjustmentModel
+AdjustmentModel --> Controller: Daftar penyesuaian stok
+deactivate AdjustmentModel
+
+Controller --> AdjustmentPage: Kirim data ke view
+deactivate Controller
+
+AdjustmentPage -> Admin: Tampilkan daftar penyesuaian stok
+deactivate Admin
+
+@enduml

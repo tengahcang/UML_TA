@@ -1,0 +1,55 @@
+@startuml
+actor Admin
+
+boundary "Halaman Index Barang" as BarangIndex
+control "BarangController" as BarangController
+boundary "Form Penyesuaian Stok" as AdjustForm
+entity "Model Barang" as BarangModel
+entity "Model Adjustment" as AdjustmentModel
+database "Database" as DB
+
+Admin -> BarangIndex: Akses halaman barang
+activate Admin
+BarangIndex -> BarangController: index()
+activate BarangController
+BarangController --> BarangIndex: View daftar barang
+deactivate BarangController
+
+Admin -> BarangIndex: Klik tombol "Adjust"
+BarangIndex -> BarangController: adjustmentForm(id)
+activate BarangController
+BarangController -> BarangModel: Ambil data barang berdasarkan id
+activate BarangModel
+BarangModel --> BarangController: Data barang
+deactivate BarangModel
+BarangController --> AdjustForm: Tampilkan form penyesuaian stok
+deactivate BarangController
+
+Admin -> AdjustForm: Input stok baru dan submit
+AdjustForm -> BarangController: adjust(id, request)
+activate BarangController
+
+alt Data valid
+    BarangController -> BarangModel: Validasi dan ambil stok lama
+    activate BarangModel
+    BarangModel -> DB: Query stok
+    DB --> BarangModel: Data stok lama
+    BarangModel -> DB: UPDATE stok baru
+    DB --> BarangModel: OK
+    deactivate BarangModel
+
+    BarangController -> AdjustmentModel: Simpan adjustment log
+    activate AdjustmentModel
+    AdjustmentModel -> DB: INSERT ke tabel adjustments dan adjustment_items
+    DB --> AdjustmentModel: OK
+    deactivate AdjustmentModel
+
+    BarangController --> BarangIndex: Redirect ke index + notifikasi
+    deactivate BarangController
+    BarangIndex -> Admin: Tampilkan daftar + notifikasi
+else Data tidak valid
+    BarangController --> AdjustForm: Redirect kembali ke form + pesan error
+    deactivate BarangController
+    AdjustForm -> Admin: Tampilkan pesan validasi
+end
+@enduml

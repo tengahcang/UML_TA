@@ -1,0 +1,38 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Barang";
+:Klik tombol "Adjust" pada salah satu barang;
+
+|System|
+:Ambil data barang berdasarkan ID;
+:Tampilkan form penyesuaian stok;
+
+|User|
+:Input jumlah stok baru;
+:Klik tombol "Simpan Adjustment";
+
+|System|
+:Validasi input (stok >= 0);
+if (Validasi OK?) then (Ya)
+  :Mulai transaksi DB;
+  :Hitung selisih stok;
+  if (Stok berkurang?) then (Ya)
+    :Hitung nilai kerugian (loss);
+  endif
+  :Ambil atau buat data Adjustment\ndari user di tanggal hari ini;
+  :Simpan Adjustment Item;
+  :Update total kerugian (jika ada);
+  :Update stok barang;
+  :Simpan perubahan;
+  :Commit transaksi DB;
+  :Redirect ke daftar barang;
+  :Tampilkan notifikasi sukses;
+else (Tidak valid)
+  :Tampilkan error validasi;
+  :Kembali ke form;
+endif
+
+stop
+@enduml

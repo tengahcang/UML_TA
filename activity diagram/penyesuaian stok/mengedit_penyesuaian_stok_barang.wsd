@@ -1,0 +1,29 @@
+@startuml
+|User|
+start
+:Login ke sistem;
+:Klik menu "Penyesuaian Stok";
+:Klik tombol "Edit" pada\nsalah satu penyesuaian stok;
+
+|System|
+:Ambil data penyesuaian stok Barang\nberdasarkan ID;
+:Tampilkan form edit stok\ndengan data yang sudah ada;
+
+|User|
+:User mengisi form\ndengan data baru;
+:Klik tombol "Simpan";
+
+|System|
+:Validasi data;
+
+if (Data valid?) then (Ya)
+  :Update data penyesuaian stok\ndi database;
+  :Tampilkan notifikasi\n"Berhasil diubah";
+  :Redirect ke halaman\ndaftar penyesuaian stok;
+else (Tidak)
+  :Tampilkan pesan\nerror;
+  :Tampilkan kembali\nform edit;
+endif
+
+stop
+@enduml

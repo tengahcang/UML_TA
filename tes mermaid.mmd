@@ -1,0 +1,35 @@
+graph TD
+    A  --> B{Validate Request};
+
+    B -- Validation Fails --> C[Return 422 JSON Error];
+    B -- Validation Success --> D{payment_method === 'midtrans'?};
+
+    D -- Yes --> E[Set kodeTransaksi = request->order_id];
+    D -- No --> F[Set kodeTransaksi = 'TEMP-TXN-' . uniqid()];
+
+    E --> G[Begin Try Block];
+    F --> G;
+
+    G --> H[Create New Transaction Object];
+    H --> I[Assign order_id, created_by_name, total_harga, metode_pembayaran, tanggal_transaksi];
+    I --> J[Save Transaction to DB];
+
+    J --> K{Loop through each item in $data['items']?};
+
+    K -- Yes --> L[Get current item];
+    L --> M[Find Product by item->product_id];
+    M --> N[Create New TransactionDetail Object];
+    N --> O[Assign transaksi_id, nama_barang, jumlah, harga];
+    O --> P[Save TransactionDetail to DB];
+    P --> Q[Reduce Product Stock (product->stock -= item->quantity)];
+    Q --> R[Save Product to DB];
+    R --> K; 'Loop back to check next item'
+
+    K -- No --> S[Return 200 Success JSON];
+
+    G -- Try Block Fails --> T[Catch \Exception $e];
+    T --> U[Return 500 Error JSON with Exception Message];
+
+    S --> V[End];
+    C --> V;
+    U --> V;

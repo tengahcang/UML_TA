@@ -1,0 +1,48 @@
+@startuml
+actor Admin
+
+boundary "Halaman Index Penyesuaian Stok" as AdjustmentIndex
+control "KategoriController" as Controller
+boundary "Form Edit Penyesuaian Stok" as EditForm
+entity "Model Penyesuaian Stok" as AdjustmentModel
+database "Database" as DB
+
+activate Admin
+Admin -> AdjustmentIndex: Akses halaman penyesuaian stok
+AdjustmentIndex -> Controller: index()
+activate Controller
+Controller --> AdjustmentIndex: View daftar penyesuaian stok
+deactivate Controller
+
+Admin -> AdjustmentIndex: Klik tombol "Edit"
+AdjustmentIndex -> Controller: edit(id)
+activate Controller
+Controller -> AdjustmentModel: Ambil data penyesuaian stok berdasarkan id
+activate AdjustmentModel
+AdjustmentModel --> Controller: Data penyesuaian stok
+deactivate AdjustmentModel
+Controller --> EditForm: Tampilkan form edit
+deactivate Controller
+
+Admin -> EditForm: Ubah data dan submit
+EditForm -> Controller: update(id, request)
+activate Controller
+
+alt Data valid
+    Controller -> AdjustmentModel: Validasi & update data
+    activate AdjustmentModel
+    AdjustmentModel -> DB: UPDATE kategori_barang SET ...
+    DB --> AdjustmentModel: Update berhasil
+    deactivate AdjustmentModel
+
+    Controller --> AdjustmentIndex: Redirect ke index + notifikasi
+    deactivate Controller
+    AdjustmentIndex -> Admin: Tampilkan daftar + notifikasi
+else Data tidak valid
+    Controller --> EditForm: Redirect kembali ke form edit + error
+    deactivate Controller
+    EditForm -> Admin: Tampilkan pesan validasi
+end
+deactivate Admin
+
+@enduml
